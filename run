@@ -1,0 +1,43 @@
+#!/usr/bin/env nu
+
+def main [] {}
+
+# with debug symbols
+def "main debug" [] {
+	zig build
+}
+
+# with debug symbols
+def "main debug-ref" [] {
+	zig build -freference-trace
+}
+
+# clean cache
+def "main clean" [] {
+	if ('.zig-cache' | path exists) {
+		rm -r .zig-cache/
+	}
+	if ('zig-out' | path exists) {
+		rm -r zig-out/
+	}
+}
+
+# default 
+def "main build" [] {
+	main build-safe
+}
+
+# with all safety ON
+def "main build-safe" [] {
+	zig build -Doptimize=ReleaseSafe
+}
+
+# with safety off + size optimized
+def "main build-small" [] {
+	zig build -Doptimize=ReleaseSmall
+}
+
+# with safety off + performance optimized
+def "main build-fast" [] {
+	zig build -Doptimize=ReleaseFast
+}
